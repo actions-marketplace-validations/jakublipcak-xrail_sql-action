@@ -14,6 +14,7 @@ export interface IActionInputs {
     actionType: ActionType;
     connectionString: SqlConnectionStringBuilder;
     additionalArguments?: string;
+    sqlFolder: string;
 }
 
 export interface IDacpacActionInputs extends IActionInputs {
@@ -65,7 +66,11 @@ export default class AzureSqlAction {
 
     private async _executeSqlFile(inputs: ISqlActionInputs) {
         let sqlCmdPath = await AzureSqlActionHelper.getSqlCmdPath();
-        await exec.exec(`"${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i "${inputs.sqlFile}" ${inputs.additionalArguments}`);
+
+
+        await exec.exec(`for %%G in ${inputs.sqlFolder} do (
+        "${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i %%G ${inputs.additionalArguments}
+        )`);
 
         console.log(`Successfully executed Sql file on target database.`);
     }
