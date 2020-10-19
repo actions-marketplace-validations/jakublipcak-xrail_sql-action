@@ -12,7 +12,7 @@ If you are looking for more Github Actions to deploy code or a customized image 
 
 The definition of this Github Action is in [action.yml](https://github.com/Azure/sql-action/blob/master/action.yml).
 
-# End-to-End Sample Workflow
+# End-to-End Sample Workflow 
 
 ## Dependencies on other Github Actions
 If *can* use the option [Allow Azure Services and resources to access this server](https://docs.microsoft.com/en-us/azure/azure-sql/database/firewall-configure#connections-from-inside-azure), you are all set and you don't need to to anything else to allow GitHub Action to connect to your Azure SQL database.
