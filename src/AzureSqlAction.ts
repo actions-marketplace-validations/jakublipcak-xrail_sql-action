@@ -3,6 +3,7 @@ import * as exec from '@actions/exec';
 
 import AzureSqlActionHelper from './AzureSqlActionHelper';
 import SqlConnectionStringBuilder from './SqlConnectionStringBuilder';
+import * as fs from "fs";
 
 export enum ActionType {
     DacpacAction,
@@ -67,10 +68,11 @@ export default class AzureSqlAction {
     private async _executeSqlFile(inputs: ISqlActionInputs) {
         let sqlCmdPath = await AzureSqlActionHelper.getSqlCmdPath();
 
+        let fileObjs = fs.readdirSync(inputs.sqlFolder, { withFileTypes: true });
 
-        await exec.exec(`for %%G in ${inputs.sqlFolder} do (
-        "${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i %%G ${inputs.additionalArguments}
-        )`);
+        fileObjs.forEach(file => {
+            exec.exec(`"${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i ${file} ${inputs.additionalArguments}`);
+        });
 
         console.log(`Successfully executed Sql file on target database.`);
     }
