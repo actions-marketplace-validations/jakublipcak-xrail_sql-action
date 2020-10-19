@@ -1,4 +1,4 @@
-name: 'Azure SQL Deploy'
+name: 'Azure SQL Deploy folder'
 description: 'Deploy a DACPAC or a SQL script to Azure SQL database'
 inputs:
   server-name:
