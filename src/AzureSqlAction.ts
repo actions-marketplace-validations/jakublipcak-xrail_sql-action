@@ -72,7 +72,7 @@ export default class AzureSqlAction {
 
         fileObjs.forEach(async file => {
             console.log(JSON.stringify(file) + 'XXX');
-            await exec.exec(`"${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i ${file.toString()} ${inputs.additionalArguments}`);
+            await exec.exec(`"${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i ${file.name} ${inputs.additionalArguments}`);
         });
 
         console.log(`Successfully executed Sql file on target database.`);
