@@ -68,11 +68,11 @@ export default class AzureSqlAction {
     private async _executeSqlFile(inputs: ISqlActionInputs) {
         let sqlCmdPath = await AzureSqlActionHelper.getSqlCmdPath();
 
-        let fileObjs = fs.readdirSync(/*inputs.sqlFolder*/ './Objects/sql_action_test', { withFileTypes: true });
+        let fileObjs = fs.readdirSync(inputs.sqlFolder, { withFileTypes: true });
 
         fileObjs.forEach(async file => {
-            console.log(JSON.stringify(file) + 'XXX');
-            await exec.exec(`"${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i ${file.name} ${inputs.additionalArguments}`);
+            let filePath = inputs.sqlFolder + '/' + file.name;
+            await exec.exec(`"${sqlCmdPath}" -S ${inputs.serverName} -d ${inputs.connectionString.database} -U "${inputs.connectionString.userId}" -P "${inputs.connectionString.password}" -i ${filePath} ${inputs.additionalArguments}`);
         });
 
         console.log(`Successfully executed Sql file on target database.`);
