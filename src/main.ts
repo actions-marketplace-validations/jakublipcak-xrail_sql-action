@@ -55,6 +55,7 @@ function getInputs(): IActionInputs {
     
     let additionalArguments = core.getInput('arguments');
     let dacpacPackage = core.getInput('dacpac-package');
+    let sqlFolder = core.getInput('sql-folder')
 
     if (!!dacpacPackage) {
         dacpacPackage = AzureSqlActionHelper.resolveFilePath(dacpacPackage);
@@ -68,7 +69,8 @@ function getInputs(): IActionInputs {
             dacpacPackage: dacpacPackage,
             sqlpackageAction: SqlPackageAction.Publish,
             actionType: ActionType.DacpacAction,
-            additionalArguments: additionalArguments
+            additionalArguments: additionalArguments,
+            sqlFolder: sqlFolder
         } as IDacpacActionInputs;
     }
 
@@ -84,7 +86,8 @@ function getInputs(): IActionInputs {
             connectionString: connectionStringBuilder,
             sqlFile: sqlFilePath,
             actionType: ActionType.SqlAction,
-            additionalArguments: additionalArguments
+            additionalArguments: additionalArguments,
+            sqlFolder: sqlFolder
         } as ISqlActionInputs;
     }
   
